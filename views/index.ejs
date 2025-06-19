@@ -1,21 +1,115 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chess</title>
 
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Font for Chess Symbols -->
+  <style>
+    body {
+      font-family: 'Segoe UI Symbol', 'Arial Unicode MS', 'Noto Sans Symbols', sans-serif;
+    }
+
+    .chessboard {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      grid-template-rows: repeat(8, minmax(0, 1fr));
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 1;
+      transform: rotate(0deg);
+    }
+
+    .piece.white {
+      color: white;
+      filter: drop-shadow(0 0 2px rgba(0, 0, 0, 1));
+    }
+
+    .piece.black {
+      color: black;
+    }
+
+    .flipped {
+      transform: rotate(180deg);
+    }
+
+    .square {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .square.light {
+      background-color: #f0d9b5;
+    }
+
+    .square.dark {
+      background-color: #b58863;
+    }
+
+    .piece {
+      font-size: 36px;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .dragging {
+      opacity: 0.5;
+    }
+
+    .flipped .piece {
+      transform: rotate(180deg);
+    }
+
+    .captured-piece {
+  font-size: 22px;
+  margin-right: 6px;
+  user-select: none;
+  display: inline-block;
+}
+
+/* White pieces: bright for visibility */
+#black-captured .captured-piece {
+  color: white;
+}
+
+/* Black pieces: darker but visible on olive */
+#white-captured .captured-piece {
+  color: black;
+}
+
+  </style>
 </head>
-<body>
-    <div class="w-full flex items-center justify-center h-screen bg-black ">
-        <div class="chessboard w-96 h-96 bg-red-800"></div>
+<body class="bg-gray-900 text-white">
+  <div class="flex flex-col items-center justify-center min-h-screen space-y-6">
+
+    <!-- Player Role -->
+    <div id="player-tag" class="text-xl font-bold">You are: ...</div>
+
+    <!-- Captured Pieces with olive green background -->
+    <div class="flex justify-between w-full max-w-[400px] px-4 text-sm rounded-md p-3 text-white" style="background-color:#556B2F;">
+      <div class="text-left">
+        <div class="font-semibold">White captured:</div>
+        <div id="white-captured" class="text-lg break-words"></div>
+      </div>
+      <div class="text-right">
+        <div class="font-semibold">Black captured:</div>
+        <div id="black-captured" class="text-lg break-words"></div>
+      </div>
     </div>
 
+    <!-- Chessboard -->
+    <div class="chessboard bg-red-800"></div>
+  </div>
 
-
-
-    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
-    <script src="/js/chessgame.js"></script>
+  <!-- Socket.IO & Chess.js -->
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.js"></script>
+  <script src="/js/chessgame.js"></script>
 </body>
 </html>
